@@ -1,0 +1,42 @@
+body {
+    background-color: lightgrey;
+    display:flex;
+    justify-content: center;
+}
+
+#display{
+    color: lightgrey;
+    height: 190px;
+}
+
+.calc_container{
+    background-color: black;
+    width: 400px;
+    height: 600px;    
+}
+
+
+#btnContainer {
+    display: flex;
+    box-sizing: border-box;
+    background-color: aqua;
+    width: 400px;
+    height: 400px;
+    border: 1px solid red;
+}
+
+.btn{
+    box-sizing: border-box;
+    padding: 2px;
+    margin: 2px;
+    width: 80px;
+    height: 70px;
+
+
+}
+
+.mintBtn {
+    background-color: rgb(10, 122, 79);
+    color: white;
+    font-weight: bold;
+}
