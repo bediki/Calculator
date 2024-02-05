@@ -4,9 +4,9 @@ body {
     justify-content: center;
 }
 
-#display{
+#resultDisplay{
     color: lightgrey;
-    height: 190px;
+    height: 180px;
 }
 
 .calc_container{
