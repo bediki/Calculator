@@ -1,79 +1,106 @@
 
 //variables
 let operator;
-let firstNumber;
-let secondNumber;
-let displaytext='';
-
+let displaytext = '';
+let currentNumber = '';
+let previousNumber = '';
 
 // dom elements
-let buttonsCont = document.querySelectorAll('.btn');
-let display = document.querySelectorAll('#resultDisplay');
+let numBtn = document.querySelectorAll('.btn.num');
+let optBtn = document.querySelectorAll('.btn.op');
+let eqBtn = document.querySelectorAll('.btn.eq');
+let currentNumDisplay = document.getElementById('currentNumber');
+let eraBtn = document.querySelectorAll('.btn.erase');
+let bkspBtn = document.querySelectorAll('.btn.bspc');
 
-// add eventlisteners
-buttonsCont.forEach(buttons => {
+
+
+// Eventlisteners 
+
+
+//Erase Button
+eraBtn.forEach(button => button.addEventListener('click', () => {
+    currentNumDisplay.innerHTML = '0';
+    currentNumber = '';
+    previousNumber = '';
+    operator = undefined;
+}));
+
+
+
+
+
+numBtn.forEach(buttons => {
     buttons.addEventListener('click', (e) => {
-        
-        displaytext =displaytext+ e.target.textContent;
-        console.log(displaytext);
-        updateDisplay(displaytext);
+        if(currentNumber == 0){
+            currentNumber = e.target.textContent;
+        }else{
+            currentNumber = currentNumber + e.target.textContent;
+        }
+        currentNumDisplay.innerHTML = currentNumber;
     })
 })
 
 
-function updateDisplay(displaytext){
-    console.log("test")
-    display.innerHTML = displaytext;
-}
+
+bkspBtn.forEach(buttons => {
+    buttons.addEventListener('click', (e) => {
+        currentNumber = currentNumber.substring(0,currentNumber.length-1);
+        console.log(currentNumber);
+        currentNumDisplay.innerHTML = currentNumber;
+    })
+})
 
 
-function createButtons() {
-    for (let i = 0; i < 20; i++) {
-        var operators = {}
 
-    }
-}
+optBtn.forEach(button => {
+    button.addEventListener('click', (e) => {
+        if (previousNumber !== '' && currentNumber !== '') {
+            previousNumber = operate(previousNumber, operator, currentNumber); 
+            currentNumDisplay.innerHTML = previousNumber;
+        } else if (currentNumber !== '') {
+            previousNumber = currentNumber;
+        }
+        currentNumber = '';
+        operator = e.target.textContent;
+    })
+})
 
-function operate(operator, firstNumber, secondNumber) {
+//Equals Button
+eqBtn.forEach(buttons => {
+    buttons.addEventListener('click', (e) => {
 
-    switch (operator) {
+        if (previousNumber != '' && currentNumber !== '') {
+            previousNumber = operate(previousNumber, operator, currentNumber);
+            currentNumDisplay.innerHTML = previousNumber;
+        }
 
+    })
+})
+
+// Operation Function
+function operate(n1, op, n2) {
+    let result;
+    switch (op) {
         case '+':
-            console.log(add(firstNumber, secondNumber))
-            return add(firstNumber, secondNumber);
+            result = parseFloat(n1) + parseFloat(n2);
             break;
         case '-':
-            return subtract(firstNumber, secondNumber);
+            result = parseFloat(n1) - parseFloat(n2);
+
             break;
         case '*':
-            return multiply(firstNumber, secondNumber);
+            result = parseFloat(n1) * parseFloat(n2);
+
             break;
-        case '+/':
-            return divide(firstNumber, secondNumber);
+        case '/':
+            if (parseFloat(n2) == 0) {
+                alert("cannot divide by zero.");
+                return n1;
+            }
+            result = parseFloat(n1) / parseFloat(n2);
             break;
 
     }
-
+    return result;
 }
-
-
-function add(a, b) {
-    return a + b;
-}
-
-function subtract(a, b) {
-    return a - b;
-}
-
-function multiply(a, b) {
-    return a * b;
-}
-
-function divide(a, b) {
-    return a / b;
-}
-
-
-
-
-operate('+', 20, 10)
