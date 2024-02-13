@@ -27,9 +27,6 @@ eraBtn.forEach(button => button.addEventListener('click', () => {
 }));
 
 
-
-
-
 numBtn.forEach(buttons => {
     buttons.addEventListener('click', (e) => {
         if(currentNumber == 0){
@@ -42,7 +39,6 @@ numBtn.forEach(buttons => {
 })
 
 
-
 bkspBtn.forEach(buttons => {
     buttons.addEventListener('click', (e) => {
         currentNumber = currentNumber.substring(0,currentNumber.length-1);
@@ -50,7 +46,6 @@ bkspBtn.forEach(buttons => {
         currentNumDisplay.innerHTML = currentNumber;
     })
 })
-
 
 
 optBtn.forEach(button => {
