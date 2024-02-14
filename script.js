@@ -10,68 +10,71 @@ let numBtn = document.querySelectorAll('.btn.num');
 let optBtn = document.querySelectorAll('.btn.op');
 let eqBtn = document.querySelectorAll('.btn.eq');
 let currentNumDisplay = document.getElementById('currentNumber');
-let eraBtn = document.querySelectorAll('.btn.erase');
-let bkspBtn = document.querySelectorAll('.btn.bspc');
+let eraseBtn = document.querySelectorAll('.btn.erase');
+let changeOperatorBtn = document.querySelectorAll('.btn.top.changeOp');
 
 
+// Eventlisteners
+changeOperatorBtn.forEach(button => button.addEventListener('click', () => {
 
-// Eventlisteners 
-
-
-//Erase Button
-eraBtn.forEach(button => button.addEventListener('click', () => {
-    currentNumDisplay.innerHTML = '0';
-    currentNumber = '';
-    previousNumber = '';
-    operator = undefined;
 }));
 
 
-numBtn.forEach(buttons => {
-    buttons.addEventListener('click', (e) => {
-        if(currentNumber == 0){
-            currentNumber = e.target.textContent;
-        }else{
-            currentNumber = currentNumber + e.target.textContent;
-        }
-        currentNumDisplay.innerHTML = currentNumber;
-    })
+
+//Erase Button
+eraseBtn.forEach(button => button.addEventListener('click', () => {
+    resetCalculator();
+}));
+
+numBtn.forEach(button => { button.addEventListener('click', (e) => {
+    appendNumber(button.textContent);
+})
 })
 
-
-bkspBtn.forEach(buttons => {
-    buttons.addEventListener('click', (e) => {
-        currentNumber = currentNumber.substring(0,currentNumber.length-1);
-        console.log(currentNumber);
-        currentNumDisplay.innerHTML = currentNumber;
+//Equals Button
+eqBtn.forEach(button => {
+    button.addEventListener('click', (e) => {
+        performOperation();
     })
 })
 
 
 optBtn.forEach(button => {
-    button.addEventListener('click', (e) => {
-        if (previousNumber !== '' && currentNumber !== '') {
-            previousNumber = operate(previousNumber, operator, currentNumber); 
-            currentNumDisplay.innerHTML = previousNumber;
-        } else if (currentNumber !== '') {
-            previousNumber = currentNumber;
-        }
+    button.addEventListener('click', () => {
+        handleOperator(button.textContent);
+    })
+})
+
+
+function handleOperator(op) {
+    console.log('c:'+currentNumber);
+    console.log('p:'+previousNumber);
+    if (previousNumber !== '' && currentNumber !== '') {
+        previousNumber = operate(previousNumber, op, currentNumber);
+        currentNumDisplay.textContent = formatDecimal(previousNumber);;
+    } else if (currentNumber !== '') {
+        previousNumber = currentNumber;
         currentNumber = '';
-        operator = e.target.textContent;
-    })
-})
+    }
+    operator = op;
+}
 
-//Equals Button
-eqBtn.forEach(buttons => {
-    buttons.addEventListener('click', (e) => {
 
-        if (previousNumber != '' && currentNumber !== '') {
-            previousNumber = operate(previousNumber, operator, currentNumber);
-            currentNumDisplay.innerHTML = previousNumber;
-        }
+function appendNumber(number) {
+    if (number == '.' && currentNumber.includes('.')) {
+        return;
+    }
+    currentNumber += number;
+    currentNumDisplay.textContent = currentNumber;
+}
 
-    })
-})
+
+function performOperation() {
+    if (previousNumber != '' && currentNumber !== '') {
+        previousNumber = operate(previousNumber, operator, currentNumber);
+        currentNumDisplay.textContent = formatDecimal(previousNumber);   
+    }
+}
 
 // Operation Function
 function operate(n1, op, n2) {
@@ -98,4 +101,22 @@ function operate(n1, op, n2) {
 
     }
     return result;
+}
+
+
+
+function formatDecimal(number) {
+    // Convert the number to a string with two digits after the decimal point
+    return Number(number).toFixed(2);
+}
+
+
+
+// Function to reset the calculator
+function resetCalculator() {
+    currentNumDisplay.textContent = '0';
+    displayText = '';
+    currentNumber = '';
+    previousNumber = '';
+    operator = undefined;
 }
