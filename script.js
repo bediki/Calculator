@@ -17,6 +17,9 @@ let changeOperatorBtn = document.querySelectorAll('.btn.top.changeOp');
 // Eventlisteners
 changeOperatorBtn.forEach(button => button.addEventListener('click', () => {
 
+    
+    
+
 }));
 
 
@@ -26,9 +29,10 @@ eraseBtn.forEach(button => button.addEventListener('click', () => {
     resetCalculator();
 }));
 
-numBtn.forEach(button => { button.addEventListener('click', (e) => {
-    appendNumber(button.textContent);
-})
+numBtn.forEach(button => {
+    button.addEventListener('click', (e) => {
+        appendNumber(button.textContent);
+    })
 })
 
 //Equals Button
@@ -47,11 +51,9 @@ optBtn.forEach(button => {
 
 
 function handleOperator(op) {
-    console.log('c:'+currentNumber);
-    console.log('p:'+previousNumber);
     if (previousNumber !== '' && currentNumber !== '') {
         previousNumber = operate(previousNumber, op, currentNumber);
-        currentNumDisplay.textContent = formatDecimal(previousNumber);;
+        currentNumDisplay.textContent = formatDecimal(previousNumber);
     } else if (currentNumber !== '') {
         previousNumber = currentNumber;
         currentNumber = '';
@@ -61,18 +63,22 @@ function handleOperator(op) {
 
 
 function appendNumber(number) {
+
+
     if (number == '.' && currentNumber.includes('.')) {
         return;
     }
     currentNumber += number;
     currentNumDisplay.textContent = currentNumber;
+
+
 }
 
 
 function performOperation() {
     if (previousNumber != '' && currentNumber !== '') {
         previousNumber = operate(previousNumber, operator, currentNumber);
-        currentNumDisplay.textContent = formatDecimal(previousNumber);   
+        currentNumDisplay.textContent = formatDecimal(previousNumber);
     }
 }
 
@@ -104,13 +110,16 @@ function operate(n1, op, n2) {
 }
 
 
-
 function formatDecimal(number) {
-    // Convert the number to a string with two digits after the decimal point
-    return Number(number).toFixed(2);
+    // Check if the number has a fractional part
+    if (Number.isInteger(number)) {
+        // If the number is an integer, return it without decimal point
+        return String(number);
+    } else {
+        // If the number has a fractional part, return it with two digits after the decimal point
+        return Number(number).toFixed(2);
+    }
 }
-
-
 
 // Function to reset the calculator
 function resetCalculator() {
